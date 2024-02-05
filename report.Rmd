@@ -1,0 +1,69 @@
+---
+title: "Report o Gun Murders"
+author: "Serhiy Pidkuyko"
+date: "2024-02-04"
+output: 
+  html_document:
+    theme: darkly
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This is a report on 2010 gun murder rates obtained from FBI reports. The original data was obtained from [this Wikipedia page](https://en.wikipedia.org/wiki/Murder_in_the_United_States_by_state).
+
+We are going to use the following library:
+```{r loading-libs, message=FALSE}
+library(tidyverse)
+```
+  
+and load the data we already wrangled:
+
+```{r}
+load("rda/murders.rda")
+```
+
+## Murder rate by state 
+
+We note the large state to state variability by generating a barplot showing the murder rate by state:
+
+```{r murder-rate-by-state, echo=FALSE}
+murders %>% mutate(abb = reorder(abb, rate)) %>%
+  ggplot(aes(abb, rate)) +
+  theme(text = element_text(colour = "gray"),  
+        plot.background = element_rect(fill = "#202020", 
+                                       colour = "gray"),
+        panel.background = element_rect(fill = "#0F0F0F", 
+                                        color = "darkgrey"),
+        panel.grid.major = element_line(colour = "#707070"),
+        panel.grid.minor = element_line(colour = "#707070"),
+        axis.text = element_text(colour = "lightblue"), 
+        axis.ticks =  element_line(colour = "lightblue")) +
+  geom_bar(width = 0.5, 
+           stat = "identity", 
+           color = "#8080C0", 
+           fill = "#8080C0") +
+  coord_flip()
+```
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
